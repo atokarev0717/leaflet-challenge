@@ -2,3 +2,4 @@ Instructions/
 __pycache__/
 .DS_Store
 .ipynb_checkpoints/
+./Leaflet-Step-1/static/js/config.js
