@@ -1,5 +1,5 @@
 // Store our API endpoint inside queryUrl
-let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 
 // Perform a GET request to the query URL
 d3.json(queryUrl).then(data => {
@@ -19,9 +19,58 @@ function createFeatures(earthquakeData) {
       console.log(new Date(feature.properties.time));
   }
 
+  function styleInfo(feature) {
+    return {
+      opacity: 1,
+      fillOpacity: 0.6,
+      fillColor: getColor(feature.geometry.coordinates[2]),
+      color: "black",
+      radius: getRadius(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    };
+  }
+
+  // Color of the marker based on depth
+  function getColor(depth) {
+    switch (true) {
+      case depth > 5:
+        return "brown";
+        break;
+      case depth > 4:
+        return "red";
+        break;
+      case depth > 3:
+        return "orange";
+        break;
+      case depth > 2:
+        return "yellow";
+        break;
+      case depth > 1:
+        return "green";
+        break;
+      default:
+        return "light-green";
+    }
+  }
+
+  // Radius of the earthquake marker based on magnitude.
+  function getRadius(magnitude) {
+    if (magnitude === 0) {
+      return 1;
+    }
+
+    return magnitude * 3;
+  }
+
+
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   let earthquakes = L.geoJSON(earthquakeData, {
+    pointToLayer: function(feature, latlng) {
+      return L.circleMarker(latlng);
+    },
+    style: styleInfo,
     onEachFeature: onEachFeature
   });
 
