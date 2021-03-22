@@ -6,3 +6,5 @@ The USGS is interested in building a new set of tools that will allow them visua
 
 
 * Data Sourse is in (GeoJSON format of all significant earth quakes for the past 30 days)[https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson]
+
+[Final Map](Leaflet-Step-1/static/images/map.png)
